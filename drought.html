@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drought Monitor - AquaSense</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/enhanced-styles.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <style>
+        .water-gradient {
+            background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
+        }
+        /* Navbar styling */
+        nav {
+            font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.85) 0%, rgba(16, 185, 129, 0.85) 100%) !important;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+        }
+        nav.scrolled {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.95) 0%, rgba(16, 185, 129, 0.95) 100%) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        nav a, nav button {
+            font-weight: 700 !important;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            color: #ffffff !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        .nav-link {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: transparent !important;
+        }
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+            transform: translateY(-2px);
+        }
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.15) !important;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 2px;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        .warning-card {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        .progress-bar {
+            transition: width 1s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <!-- Navigation -->
+    <nav class="text-white sticky top-0 z-50 transition-all duration-300" id="main-nav">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-2xl font-extrabold cursor-pointer hover:scale-105 transition-transform flex items-center space-x-3 group">
+                    <span class="text-3xl group-hover:rotate-12 transition-transform duration-300">🌊</span>
+                    <span class="bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">AquaSense</span>
+                </a>
+                <div class="hidden md:flex space-x-2 items-center">
+                    <a href="index.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">Home</a>
+                    <a href="impact.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">Impact</a>
+                    <a href="slogan.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">Slogan</a>
+                    <a href="about.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">About</a>
+                    <a href="join.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">Join Us</a>
+                    <a href="drought.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative active">Drought</a>
+                    <div class="auth-container flex items-center space-x-2 ml-4 pl-4 border-l border-white border-opacity-30"></div>
+                </div>
+                <button class="md:hidden text-2xl hover:scale-110 transition-transform text-white" id="mobile-menu-btn" aria-label="Toggle mobile menu">☰</button>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="hidden md:hidden mt-4 space-y-2 mobile-menu-enter rounded-lg p-2" id="mobile-menu">
+                <a href="index.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Home</a>
+                <a href="impact.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Impact</a>
+                <a href="slogan.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Slogan</a>
+                <a href="about.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">About</a>
+                <a href="join.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Join Us</a>
+                <a href="drought.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Drought</a>
+                <!-- Auth section will be dynamically added by navigation.js -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Alert Banner -->
+    <div id="alert-banner" class="hidden bg-gradient-to-r from-red-500 to-orange-500 text-white p-4 shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <p class="font-bold flex items-center" id="alert-message">
+                    <span class="mr-2 text-2xl">⚠️</span>
+                    <span>Alert message will appear here</span>
+                </p>
+                <button onclick="document.getElementById('alert-banner').classList.add('hidden')" class="text-white hover:text-gray-200 text-xl">×</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="water-gradient text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-4 animate-fade-in">Drought & Water Monitor</h1>
+            <p class="text-xl md:text-2xl text-white/90 mb-8">Real-time water level tracking across India</p>
+            <div class="flex flex-wrap justify-center gap-4 text-sm">
+                <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
+                    <div class="text-3xl font-bold" id="total-states">20</div>
+                    <div class="text-white/80">States Monitored</div>
+                </div>
+                <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
+                    <div class="text-3xl font-bold" id="total-reservoirs">50+</div>
+                    <div class="text-white/80">Reservoirs Tracked</div>
+                </div>
+                <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
+                    <div class="text-3xl font-bold" id="update-time">--:--</div>
+                    <div class="text-white/80">Last Updated</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Quick Stats -->
+        <div class="grid md:grid-cols-4 gap-6 mb-8">
+            <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-2xl">🚨</span>
+                    <span class="text-xs font-semibold text-red-600 uppercase">Critical</span>
+                </div>
+                <div class="text-3xl font-bold text-red-600" id="critical-count">0</div>
+                <div class="text-sm text-gray-600">States Below 30%</div>
+            </div>
+            <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-orange-500">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-2xl">🔥</span>
+                    <span class="text-xs font-semibold text-orange-600 uppercase">Severe</span>
+                </div>
+                <div class="text-3xl font-bold text-orange-600" id="severe-count">0</div>
+                <div class="text-sm text-gray-600">States 30-50%</div>
+            </div>
+            <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-yellow-500">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-2xl">⚠️</span>
+                    <span class="text-xs font-semibold text-yellow-600 uppercase">Moderate</span>
+                </div>
+                <div class="text-3xl font-bold text-yellow-600" id="moderate-count">0</div>
+                <div class="text-sm text-gray-600">States 50-70%</div>
+            </div>
+            <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-2xl">✅</span>
+                    <span class="text-xs font-semibold text-green-600 uppercase">Normal</span>
+                </div>
+                <div class="text-3xl font-bold text-green-600" id="normal-count">0</div>
+                <div class="text-sm text-gray-600">States Above 70%</div>
+            </div>
+        </div>
+
+        <!-- India Water Levels Map -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+                <span class="mr-2 text-3xl">🇮🇳</span>
+                India Water Level Status
+            </h2>
+            <div id="states-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- States will be dynamically loaded here -->
+                <div class="text-center py-8 text-gray-500">
+                    <div class="animate-spin inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mb-4"></div>
+                    <p>Loading water level data...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rainfall Trends -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+                <span class="mr-2 text-3xl">🌧️</span>
+                Rainfall Trends
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6">
+                    <div class="text-sm text-gray-600 mb-2">Current Month</div>
+                    <div class="text-4xl font-bold text-blue-600" id="current-rainfall">-- mm</div>
+                </div>
+                <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-6">
+                    <div class="text-sm text-gray-600 mb-2">Average Monthly</div>
+                    <div class="text-4xl font-bold text-gray-600" id="avg-rainfall">-- mm</div>
+                </div>
+            </div>
+            <div class="relative" style="height: 300px;">
+                <canvas id="rainfall-chart"></canvas>
+            </div>
+        </div>
+
+        <!-- User Impact Section -->
+        <div id="user-impact-section" class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <!-- Will be dynamically populated -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 AquaSense. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/drought.js"></script>
+    <script>
+        // Initialize navigation
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof updateNavigation === 'function') {
+                updateNavigation();
+            }
+            
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            // Navbar scroll effect
+            const nav = document.getElementById('main-nav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations - AquaSense</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <style>
+        :root {
+            --primary-blue: #0ea5e9;
+            --primary-green: #10b981;
+        }
+        .water-gradient {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-green) 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="water-gradient text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold">🌊 AquaSense</div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="hover:underline">Home</a>
+                    <a href="tracker.html" class="hover:underline">Tracker</a>
+                    <a href="drought.html" class="hover:underline">Drought Monitor</a>
+                    <a href="recommendations.html" class="hover:underline font-semibold">Recommendations</a>
+                    <a href="community.html" class="hover:underline">Community</a>
+                </div>
+                <button class="md:hidden" id="mobile-menu-btn">☰</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <h1 class="text-4xl font-bold mb-8 text-center">Personalized Recommendations</h1>
+        
+        <!-- Get Recommendations Button -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8 text-center">
+            <p class="text-gray-700 mb-4">Get AI-powered, personalized water-saving recommendations based on your usage patterns.</p>
+            <button id="get-recommendations-btn" class="water-gradient text-white px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition">
+                Generate Recommendations
+            </button>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading-state" class="hidden text-center py-12">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <p class="mt-4 text-gray-600">Generating personalized recommendations...</p>
+        </div>
+
+        <!-- Recommendations Container -->
+        <div id="recommendations-container" class="space-y-6">
+            <!-- Recommendations will be populated here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 AquaSense. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/recommendations.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+
