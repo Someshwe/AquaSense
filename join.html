@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Us - AquaSense</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/enhanced-styles.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <style>
+        .water-gradient {
+            background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
+        }
+        /* Navbar with better visibility and UX */
+        nav {
+            font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.85) 0%, rgba(16, 185, 129, 0.85) 100%) !important;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+        }
+        nav.scrolled {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.95) 0%, rgba(16, 185, 129, 0.95) 100%) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+        }
+        nav a, nav button {
+            font-weight: 700 !important;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            color: #ffffff !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        .nav-link {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 700 !important;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            background: transparent !important;
+        }
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+            transform: translateY(-2px);
+        }
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.15) !important;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 2px;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+        #mobile-menu {
+            background: rgba(14, 165, 233, 0.95) !important;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="text-white sticky top-0 z-50 transition-all duration-300" id="main-nav">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-2xl font-extrabold cursor-pointer hover:scale-105 transition-transform flex items-center space-x-3 group logo-text">
+                    <span class="text-3xl group-hover:rotate-12 transition-transform duration-300">🌊</span>
+                    <span class="bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">AquaSense</span>
+                </a>
+                <div class="hidden md:flex space-x-2 items-center">
+                    <a href="index.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">Home</a>
+                    <a href="impact.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">Impact</a>
+                    <a href="slogan.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">Slogan</a>
+                    <a href="about.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">About</a>
+                    <a href="join.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative active">Join Us</a>
+                    <div class="auth-container flex items-center space-x-2 ml-4 pl-4 border-l border-white border-opacity-30">
+                        <a href="auth.html?tab=login" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">Login</a>
+                        <a href="auth.html?tab=signup" class="nav-link px-4 py-2.5 rounded-lg transition-all relative hover:bg-white hover:bg-opacity-20 font-extrabold">Signup</a>
+                    </div>
+                </div>
+                <button class="md:hidden text-2xl hover:scale-110 transition-transform" id="mobile-menu-btn" aria-label="Toggle mobile menu">☰</button>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="hidden md:hidden mt-4 space-y-2 mobile-menu-enter rounded-lg p-2" id="mobile-menu">
+                <a href="index.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Home</a>
+                <a href="impact.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Impact</a>
+                <a href="slogan.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Slogan</a>
+                <a href="about.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">About</a>
+                <a href="join.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Join Us</a>
+                <!-- Auth section will be dynamically added by navigation.js -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Join Content -->
+    <section class="py-16">
+        <div class="container mx-auto px-4 max-w-2xl">
+            <h1 class="text-4xl font-bold mb-12 text-center">Join Our Community</h1>
+            
+            <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
+                <div>
+                    <h2 class="text-2xl font-semibold mb-4">Get Started Today</h2>
+                    <p class="text-gray-700 mb-4">
+                        Start tracking your water usage and join the conservation movement. No sign-up required - 
+                        your data is stored locally on your device.
+                    </p>
+                    <a href="index.html#tracker" class="inline-block water-gradient text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition">
+                        Start Tracking
+                    </a>
+                </div>
+                
+                <div class="border-t pt-6">
+                    <h2 class="text-2xl font-semibold mb-4">Volunteer Opportunities</h2>
+                    <p class="text-gray-700 mb-4">
+                        Interested in starting a cleanup drive or rainwater harvesting project? We'll help you connect 
+                        with your community and make a difference.
+                    </p>
+                    <p class="text-gray-600 text-sm">
+                        Community features coming soon in Phase 6!
+                    </p>
+                </div>
+                
+                <div class="border-t pt-6">
+                    <h2 class="text-2xl font-semibold mb-4">Stay Connected</h2>
+                    <p class="text-gray-700">
+                        Follow our progress and get updates on new features and community initiatives.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 AquaSense. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+

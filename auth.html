@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Signup - AquaSense</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/enhanced-styles.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <style>
+        .water-gradient {
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="text-white sticky top-0 z-50 transition-all duration-300" id="main-nav" style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.2) 0%, rgba(16, 185, 129, 0.2) 100%); backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%); border-bottom: 1px solid rgba(255, 255, 255, 0.15);">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-2xl font-extrabold cursor-pointer hover:scale-105 transition-transform flex items-center space-x-3 group">
+                    <span class="text-3xl group-hover:rotate-12 transition-transform duration-300">🌊</span>
+                    <span class="bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">AquaSense</span>
+                </a>
+                <div class="hidden md:flex space-x-2 items-center">
+                    <a href="index.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">Home</a>
+                    <a href="impact.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">Impact</a>
+                    <a href="slogan.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">Slogan</a>
+                    <a href="about.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">About</a>
+                    <a href="join.html" class="nav-link px-4 py-2.5 rounded-lg transition-all relative">Join Us</a>
+                    <div class="auth-container flex items-center space-x-2 ml-4 pl-4 border-l border-white border-opacity-20">
+                        <a href="auth.html?tab=login" class="nav-link px-4 py-2.5 rounded-lg transition-all relative bg-white bg-opacity-10 hover:bg-opacity-20">Login</a>
+                        <a href="auth.html?tab=signup" class="nav-link px-4 py-2.5 rounded-lg transition-all relative bg-white bg-opacity-20 hover:bg-opacity-30">Signup</a>
+                    </div>
+                </div>
+                <button class="md:hidden text-2xl hover:scale-110 transition-transform" id="mobile-menu-btn" aria-label="Toggle mobile menu">☰</button>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="hidden md:hidden mt-4 space-y-2 mobile-menu-enter rounded-lg p-2" id="mobile-menu">
+                <a href="index.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Home</a>
+                <a href="impact.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Impact</a>
+                <a href="slogan.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Slogan</a>
+                <a href="about.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">About</a>
+                <a href="join.html" class="block py-3 px-4 hover:bg-white hover:bg-opacity-25 rounded-lg transition-all transform hover:translate-x-2 font-bold uppercase text-sm tracking-wide text-white" style="text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Join Us</a>
+                <!-- Auth section will be dynamically added by navigation.js -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Auth Container -->
+    <div class="container mx-auto px-4 py-16">
+        <div class="max-w-md mx-auto">
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h1 class="text-3xl font-bold text-center mb-8 water-gradient bg-clip-text text-transparent">
+                    Welcome to AquaSense
+                </h1>
+                
+                <!-- Tabs -->
+                <div class="flex border-b mb-6">
+                    <button id="login-tab" class="flex-1 py-2 text-center font-semibold border-b-2 border-blue-600 text-blue-600">
+                        Login
+                    </button>
+                    <button id="signup-tab" class="flex-1 py-2 text-center font-semibold text-gray-500 hover:text-gray-700">
+                        Sign Up
+                    </button>
+                </div>
+                
+                <!-- Error/Success Messages -->
+                <div id="message-container" class="hidden mb-4 p-4 rounded-lg"></div>
+                
+                <!-- Login Form -->
+                <div id="login-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" id="login-email" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="your@email.com" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input type="password" id="login-password" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="••••••" required>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button onclick="handleLogin()" class="water-gradient text-white px-6 py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity">
+                            Login
+                        </button>
+                        <button onclick="showForgetPassword()" class="text-sm text-blue-600 hover:text-blue-800 underline">
+                            Forgot Password?
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Forget Password Form -->
+                <div id="forget-password-form" class="hidden space-y-4">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">Reset Password</h3>
+                        <p class="text-sm text-gray-600 mb-4">Enter your email address and we'll send you a link to reset your password.</p>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" id="forget-email" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="your@email.com" required>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="handleForgetPassword()" class="flex-1 water-gradient text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity">
+                            Send Reset Link
+                        </button>
+                        <button onclick="showLogin()" class="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                            Back
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Reset Password Form -->
+                <div id="reset-password-form" class="hidden space-y-4">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">Set New Password</h3>
+                        <p class="text-sm text-gray-600 mb-4">Enter your new password below.</p>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+                        <input type="password" id="reset-password" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="•••••• (min 6 characters)" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+                        <input type="password" id="reset-confirm-password" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="••••••" required>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="handleResetPassword()" class="flex-1 water-gradient text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity">
+                            Reset Password
+                        </button>
+                        <button onclick="showForgetPassword()" class="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                            Back
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Signup Form -->
+                <div id="signup-form" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                        <input type="text" id="signup-name" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Your Name" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" id="signup-email" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="your@email.com" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input type="password" id="signup-password" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="•••••• (min 6 characters)" required>
+                    </div>
+                    <button onclick="handleSignup()" class="w-full water-gradient text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity">
+                        Sign Up
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Tab switching
+        document.getElementById('login-tab').addEventListener('click', () => {
+            showLogin();
+        });
+        
+        document.getElementById('signup-tab').addEventListener('click', () => {
+            showSignup();
+        });
+        
+        function showLogin() {
+            document.getElementById('login-form').classList.remove('hidden');
+            document.getElementById('signup-form').classList.add('hidden');
+            document.getElementById('forget-password-form').classList.add('hidden');
+            document.getElementById('reset-password-form').classList.add('hidden');
+            document.getElementById('login-tab').classList.add('border-b-2', 'border-blue-600', 'text-blue-600');
+            document.getElementById('login-tab').classList.remove('text-gray-500');
+            document.getElementById('signup-tab').classList.remove('border-b-2', 'border-blue-600', 'text-blue-600');
+            document.getElementById('signup-tab').classList.add('text-gray-500');
+            hideMessage();
+        }
+        
+        function showSignup() {
+            document.getElementById('signup-form').classList.remove('hidden');
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('forget-password-form').classList.add('hidden');
+            document.getElementById('reset-password-form').classList.add('hidden');
+            document.getElementById('signup-tab').classList.add('border-b-2', 'border-blue-600', 'text-blue-600');
+            document.getElementById('signup-tab').classList.remove('text-gray-500');
+            document.getElementById('login-tab').classList.remove('border-b-2', 'border-blue-600', 'text-blue-600');
+            document.getElementById('login-tab').classList.add('text-gray-500');
+            hideMessage();
+        }
+        
+        function showForgetPassword() {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('forget-password-form').classList.remove('hidden');
+            document.getElementById('reset-password-form').classList.add('hidden');
+            document.getElementById('signup-form').classList.add('hidden');
+            hideMessage();
+        }
+        
+        function showResetPassword() {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('forget-password-form').classList.add('hidden');
+            document.getElementById('reset-password-form').classList.remove('hidden');
+            document.getElementById('signup-form').classList.add('hidden');
+            hideMessage();
+        }
+        
+        function handleForgetPassword() {
+            const email = document.getElementById('forget-email').value.trim();
+            if (!email) {
+                showMessage('Please enter your email address', 'error');
+                return;
+            }
+            
+            // Check if user exists in local storage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email);
+            
+            if (!user) {
+                showMessage('No account found with this email address', 'error');
+                return;
+            }
+            
+            // Generate reset token (in production, this would be sent via email)
+            const resetToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            localStorage.setItem('reset_token_' + email, resetToken);
+            localStorage.setItem('reset_token_expiry_' + email, Date.now() + 3600000); // 1 hour expiry
+            
+            showMessage('Password reset link has been sent to your email. Use token: ' + resetToken + ' (for demo purposes)', 'success');
+            
+            // Show reset password form after 2 seconds
+            setTimeout(() => {
+                showResetPassword();
+                // Pre-fill email in reset form (in production, this would come from the reset link)
+                document.getElementById('reset-password').focus();
+            }, 2000);
+        }
+        
+        function handleResetPassword() {
+            const password = document.getElementById('reset-password').value;
+            const confirmPassword = document.getElementById('reset-confirm-password').value;
+            
+            if (!password || password.length < 6) {
+                showMessage('Password must be at least 6 characters long', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match', 'error');
+                return;
+            }
+            
+            // Get email from forget password form
+            const email = document.getElementById('forget-email').value.trim();
+            if (!email) {
+                showMessage('Email not found. Please start the reset process again.', 'error');
+                return;
+            }
+            
+            // Verify reset token (in production, this would be verified from the reset link)
+            const resetToken = localStorage.getItem('reset_token_' + email);
+            const tokenExpiry = localStorage.getItem('reset_token_expiry_' + email);
+            
+            if (!resetToken || !tokenExpiry || Date.now() > parseInt(tokenExpiry)) {
+                showMessage('Reset token expired or invalid. Please request a new reset link.', 'error');
+                return;
+            }
+            
+            // Update password
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const userIndex = users.findIndex(u => u.email === email);
+            
+            if (userIndex === -1) {
+                showMessage('User not found', 'error');
+                return;
+            }
+            
+            users[userIndex].password = btoa(password); // Simple encoding (in production, use proper hashing)
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Clear reset tokens
+            localStorage.removeItem('reset_token_' + email);
+            localStorage.removeItem('reset_token_expiry_' + email);
+            
+            showMessage('Password reset successfully! You can now login with your new password.', 'success');
+            
+            setTimeout(() => {
+                showLogin();
+                document.getElementById('forget-email').value = '';
+                document.getElementById('reset-password').value = '';
+                document.getElementById('reset-confirm-password').value = '';
+            }, 2000);
+        }
+        
+        function showMessage(message, type = 'error') {
+            const container = document.getElementById('message-container');
+            container.className = type === 'error' 
+                ? 'mb-4 p-4 rounded-lg bg-red-50 border border-red-200 text-red-700'
+                : 'mb-4 p-4 rounded-lg bg-green-50 border border-green-200 text-green-700';
+            container.textContent = message;
+            container.classList.remove('hidden');
+        }
+        
+        function hideMessage() {
+            document.getElementById('message-container').classList.add('hidden');
+        }
+        
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            try {
+                login(email, password);
+                showMessage('Login successful! Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            } catch (error) {
+                showMessage(error.message, 'error');
+            }
+        }
+        
+        function handleSignup() {
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            
+            try {
+                signup(email, password, name);
+                showMessage('Account created successfully! Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            } catch (error) {
+                showMessage(error.message, 'error');
+            }
+        }
+        
+        // Check URL parameter for tab
+        const urlParams = new URLSearchParams(window.location.search);
+        const tab = urlParams.get('tab');
+        const resetToken = urlParams.get('reset');
+        
+        if (resetToken) {
+            // If reset token is in URL, show reset password form
+            showResetPassword();
+        } else if (tab === 'signup') {
+            showSignup();
+        }
+        
+        // Check if already logged in
+        if (isLoggedIn()) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
+

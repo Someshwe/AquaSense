@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaMate Chatbot - AquaSense</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <style>
+        :root {
+            --primary-blue: #0ea5e9;
+            --primary-green: #10b981;
+        }
+        .water-gradient {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-green) 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="water-gradient text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold">🌊 AquaSense</div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="hover:underline">Home</a>
+                    <a href="tracker.html" class="hover:underline">Tracker</a>
+                    <a href="chatbot.html" class="hover:underline font-semibold">AquaMate</a>
+                    <a href="ai-content.html" class="hover:underline">AI Content</a>
+                </div>
+                <button class="md:hidden" id="mobile-menu-btn">☰</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <h1 class="text-4xl font-bold mb-8 text-center">🤖 AquaMate - Your Water Conservation Assistant</h1>
+        
+        <!-- Chat Container -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-4" style="height: 500px; overflow-y: auto;" id="chat-container">
+            <div id="chat-messages" class="space-y-4">
+                <div class="flex items-start space-x-3">
+                    <div class="w-10 h-10 rounded-full water-gradient flex items-center justify-center text-white font-bold">
+                        🌊
+                    </div>
+                    <div class="flex-1 bg-blue-50 rounded-lg p-4">
+                        <p class="text-gray-700">Hello! I'm AquaMate, your water conservation assistant. How can I help you today? Ask me anything about saving water!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Form -->
+        <div class="bg-white rounded-lg shadow-md p-4">
+            <form id="chat-form" class="flex space-x-4">
+                <input type="text" id="chat-input" placeholder="Ask me about water conservation..." 
+                       class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" required>
+                <button type="submit" class="water-gradient text-white px-6 py-2 rounded-lg font-semibold hover:opacity-90 transition">
+                    Send
+                </button>
+            </form>
+        </div>
+
+        <!-- Example Questions -->
+        <div class="mt-6 bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold mb-4">💡 Example Questions</h3>
+            <div class="grid md:grid-cols-2 gap-3">
+                <button class="example-question text-left px-4 py-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition text-sm">
+                    How can I reduce water waste in my kitchen?
+                </button>
+                <button class="example-question text-left px-4 py-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition text-sm">
+                    What are the best practices for garden watering?
+                </button>
+                <button class="example-question text-left px-4 py-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition text-sm">
+                    How much water does a dishwasher use?
+                </button>
+                <button class="example-question text-left px-4 py-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition text-sm">
+                    Tips for reducing shower water usage
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 AquaSense. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+
